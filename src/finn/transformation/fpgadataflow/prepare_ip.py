@@ -41,6 +41,7 @@ def _codegen_single_node(node, model, fpgapart, clk):
     to generate a Vivado IP block for the node."""
 
     op_type = node.op_type
+    print("Optype: " + node.op_type + " Name: " + node.name)
     try:
         # lookup op_type in registry of CustomOps
         inst = registry.getCustomOp(node)

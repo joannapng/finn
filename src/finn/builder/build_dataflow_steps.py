@@ -167,7 +167,7 @@ def verify_step(
             inp_tensor_name = model.graph.input[0].name
             out_tensor_name = model.graph.output[0].name
             exp_ishape = model.get_tensor_shape(inp_tensor_name)
-            if in_npy.shape != exp_ishape:
+            if in_npy.shape != tuple(exp_ishape):
                 print(
                     "Verification input has shape %s while model expects %s"
                     % (str(in_npy.shape), str(exp_ishape))

@@ -1480,6 +1480,7 @@ class InferQuantizedMatrixVectorActivation(Transformation):
                         assert scale == 1.0 or bipolar_ok, (
                             consumer.name + ": out_scale=1 or bipolar output needed for conversion."
                         )
+
                         assert (not odt.signed()) or (actval < 0), (
                             consumer.name + ": Signed output requres actval < 0"
                         )

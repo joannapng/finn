@@ -95,9 +95,11 @@ class Streamline(Transformation):
             RoundAndClipThresholds(),
         ]
         for trn in streamline_transformations:
+            print(trn)
             model = model.transform(trn)
             model = model.transform(RemoveIdentityOps())
             model = model.transform(GiveUniqueNodeNames())
             model = model.transform(GiveReadableTensorNames())
             model = model.transform(InferDataTypes())
+            
         return (model, False)

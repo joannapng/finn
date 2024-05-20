@@ -528,6 +528,7 @@ class MoveLinearPastEltwiseAdd(Transformation):
         # found! move one of the muls to output, remove the other one
         lin0_in0 = prod0.input[0]
         lin1_in0 = prod1.input[0]
+
         in0 = n.input[0]
         out = n.output[0]
         # TODO: check shapes don't change through scalar mul or add
@@ -572,6 +573,10 @@ class MoveLinearPastEltwiseAdd(Transformation):
                     continue
                 if len(prod0.input) < 2 or len(prod1.input) < 2:
                     continue
+                
+                if model.is_fork_node(prod0) or model.is_fork_node(prod1):
+                    continue
+                
                 init0 = model.get_initializer(prod0.input[1])
                 init1 = model.get_initializer(prod1.input[1])
                 # if either initializer is None, skip
@@ -632,7 +637,7 @@ class MoveScalarLinearPastInvariants(Transformation):
                 if prod0 is None:
                     continue
 
-                if prod0.op_type in ["Mul", "Add", "Div"]:
+                if prod0.op_type in ["Mul", "Add", "Div"] and not model.is_fork_node(prod0) and not model.is_join_node(prod0):
                     # check if second input of producer is an initializer
                     init0 = model.get_initializer(prod0.input[1])
                     # if either initializer is None, skip
@@ -1086,7 +1091,7 @@ class MoveFlattenPastAffine(Transformation):
 
                     new_op = oh.make_node(
                         consumer.op_type,
-                        [start_name, op_param_name],
+                        [start_name, op_param_name]
                         [middle_name],
                         name=consumer.name,
                     )
