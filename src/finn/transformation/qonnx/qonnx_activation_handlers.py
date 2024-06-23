@@ -178,7 +178,6 @@ class QuantActBaseHandler(ABC):
             # Set the output data type
             mt_inst.set_nodeattr("out_dtype", out_dtype)
         else:
-            # Set datatype
             mt_inst.set_nodeattr("out_dtype", out_dtype)
 
             # Insertion parameters
